@@ -18,6 +18,13 @@ image_name = f"tomerkul/mysql:{next_version}"
 client.images.build(path=".", tag=image_name, rm=True, pull=True)
 print(f"Successfully built image: {image_name}")
 
-# Push the image to Docker Hub
+# Push the image with the specified tag
 client.images.push(repository="tomerkul/mysql", tag=next_version)
 print(f"Successfully pushed image: {image_name}")
+
+# Push the image with the 'latest' tag
+latest_tag = "latest"
+latest_image_name = f"tomerkul/mysql:{latest_tag}"
+client.images.tag(image_name, repository="tomerkul/mysql", tag=latest_tag)
+client.images.push(repository="tomerkul/mysql", tag=latest_tag)
+print(f"Successfully pushed image: {latest_image_name}")
