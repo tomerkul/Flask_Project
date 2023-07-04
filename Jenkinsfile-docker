@@ -35,7 +35,7 @@ pipeline {
                                    python3 findlastversion.py
                                    cd /home/tomer/myflaskproject/sample-flask/db
                                    python3 findlastversionSQl.py
-                                   docker system prune -f
+                                   
                                 '
                         '''
                     }
