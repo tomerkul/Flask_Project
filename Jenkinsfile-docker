@@ -74,6 +74,7 @@ pipeline {
                                docker pull tomerkul/mysql:latest
                                docker pull tomerkul/myflask:latest
                                docker-compose up -d
+                               docker-compose down
                                sleep 15
                                curl "http://3.95.193.151:5000"
                             '
@@ -91,6 +92,7 @@ pipeline {
                                        docker stop $(docker ps -q --filter "expose=5000") 
                                        docker pull tomerkul/mysql:latest
                                        docker pull tomerkul/myflask:latest
+                                       docker-compose down
                                        docker-compose up -d
                                     '
                             '''
