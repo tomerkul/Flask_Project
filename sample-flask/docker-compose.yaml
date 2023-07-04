@@ -1,14 +1,14 @@
 version: '3'
 services:
   web:
-    image: tomerkul/myflask:2.4
+    image: tomerkul/myflask:latest
     ports:
       - 5000:5000
     depends_on:
       - db
     restart: unless-stopped
   db:
-    image: tomerkul/mysql:1.2
+    image: tomerkul/mysql:latest
     ports:
       - 3306:3306
     environment:
