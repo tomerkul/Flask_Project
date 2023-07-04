@@ -74,7 +74,7 @@ pipeline {
                                python3  pulllatestSQL.py
                                docker-compose up -d
                                sleep 15
-                               curl "http://$TEST_IP:5000"
+                               curl "http://3.95.193.151:5000"
                             '
                     '''
                 }
