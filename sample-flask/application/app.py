@@ -4,7 +4,7 @@ import mysql.connector
 
 app = Flask(__name__)
 db_host = "db"  # MySQL host
-db_user = "root"  # MySQL username
+db_user = "tomer"  # MySQL username
 db_password = "1234"  # MySQL password
 db_name = "develop"  # MySQL database name
 
@@ -18,6 +18,7 @@ def execute_init_script():
     )
     cursor = conn.cursor()
     print("connected")
+
 # Function to increment the visit count
 def increment_visit_count():
     conn = mysql.connector.connect(
@@ -45,13 +46,13 @@ def get_visit_count():
     conn.close()
     return count[0] if count else 0
 
+
 @app.route("/")
 def hello_world():
     increment_visit_count()
     count = get_visit_count()
     return render_template("index.html", count=count)
 
-
 if __name__ == "__main__":
-    execute_init_script()  # Execute the init.sql file
+    execute_init_script()
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
