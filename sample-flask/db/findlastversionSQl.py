@@ -25,6 +25,7 @@ print(f"Successfully pushed image: {image_name}")
 # Push the image with the 'latest' tag
 latest_tag = "latest"
 latest_image_name = f"tomerkul/mysql:{latest_tag}"
-client.images.tag(image_name, repository="tomerkul/mysql", tag=latest_tag)
+image_to_tag = client.images.get(image_name)
+image_to_tag.tag(repository="tomerkul/mysql", tag=latest_tag)
 client.images.push(repository="tomerkul/mysql", tag=latest_tag)
 print(f"Successfully pushed image: {latest_image_name}")
