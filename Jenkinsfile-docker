@@ -31,15 +31,34 @@ pipeline {
                             sudo scp -i $KEY_FILE -o StrictHostKeyChecking=no -rp myflaskproject tomer@$ANSIBLE_IP:/home/tomer/flask-docker
                             ssh-keyscan $ANSIBLE_IP >> /var/lib/jenkins/.ssh/known_hosts
                             ssh -o StrictHostKeyChecking=no -i $KEY_FILE tomer@$ANSIBLE_IP '
-                                   cd /home/tomer/flask-docker/myflaskproject/sample-flask
+                                   cd /home/tomer/flask-docker/myflaskproject/sample-flask/application
                                    python3 findlastversion.py
+                                   cd /home/tomer/myflaskproject/sample-flask/db
+                                   python3 findlastversionSQl.py
                                 '
                         '''
                     }
                 }
             }
         }
-
+        stage('Installing the dependencies') {
+            steps {
+                withCredentials([sshUserPrivateKey(credentialsId: 'SSH_VM', keyFileVariable: 'KEY_FILE')]) {
+                    sshagent(['SSH_VM']) {
+                        sh '''
+                            
+                            ssh-keyscan $ANSIBLE_IP >> /var/lib/jenkins/.ssh/known_hosts
+                            ssh -o StrictHostKeyChecking=no -i $KEY_FILE tomer@$ANSIBLE_IP '
+                                   cd /home/tomer/myflaskproject/sample-flask
+                                   sudo scp -i /home/tomer/.ssh/mykeyVir.pem -o StrictHostKeyChecking=no -rp docker-compose.yaml ec2-user@:/home/ec2-user
+                                   cd /etc/ansible
+                                   ansible-playbook -i aws_ec2.yml docker-dependency.yml
+                                '
+                        '''
+                    }
+                }
+            }
+        }
         stage('testing') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'docker-test', keyFileVariable: 'KEY_FILE')]) {
