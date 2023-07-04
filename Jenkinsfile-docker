@@ -35,6 +35,7 @@ pipeline {
                                    python3 findlastversion.py
                                    cd /home/tomer/myflaskproject/sample-flask/db
                                    python3 findlastversionSQl.py
+                                   docker system prune -f
                                 '
                         '''
                     }
@@ -63,6 +64,8 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'docker-test', keyFileVariable: 'KEY_FILE')]) {
                     sh '''
+                        ls
+                        pwd
                         ssh-keyscan $TEST_IP >> /var/lib/jenkins/.ssh/known_hosts
                         sudo scp -i $KEY_FILE -o StrictHostKeyChecking=no -rp /myflaskproject/sample-flask/db/pulllatestSQL.py myflaskproject/sample-flask/pulllatest.py ec2-user@$TEST_IP:/home/ec2-user/
                         ssh -o StrictHostKeyChecking=no -i $KEY_FILE ec2-user@$TEST_IP '
