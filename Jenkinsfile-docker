@@ -70,8 +70,8 @@ pipeline {
                         sudo scp -i $KEY_FILE -o StrictHostKeyChecking=no -rp /var/lib/jenkins/workspace/first_pipeline-docker/myflaskproject/sample-flask/db/pulllatestSQL.py /var/lib/jenkins/workspace/first_pipeline-docker/myflaskproject/sample-flask/pulllatest.py ec2-user@$TEST_IP:/home/ec2-user/
                         ssh -o StrictHostKeyChecking=no -i $KEY_FILE ec2-user@$TEST_IP '
                                docker stop $(docker ps -q --filter "expose=5000")
-                               python3 pulllatest.py
-                               python3  pulllatestSQL.py
+                               docker pull tomerkul/mysql:latest
+                               docker pull tomerkul/myflask:latest
                                docker-compose up -d
                                sleep 15
                                curl "http://3.95.193.151:5000"
@@ -88,8 +88,8 @@ pipeline {
                                 sudo scp -i $KEY_FILE -o StrictHostKeyChecking=no -rp /var/lib/jenkins/workspace/first_pipeline-docker/myflaskproject/sample-flask/db/pulllatestSQL.py /var/lib/jenkins/workspace/first_pipeline-docker/myflaskproject/sample-flask/pulllatest.py ec2-user@$DEPLOY_IP:/home/ec2-user/
                                 ssh -o StrictHostKeyChecking=no -i $KEY_FILE ec2-user@$DEPLOY_IP '
                                        docker stop $(docker ps -q --filter "expose=5000") 
-                                       python3 pulllatest.py 
-                                       python3  pulllatestSQL.py
+                                       docker pull tomerkul/mysql:latest
+                                       docker pull tomerkul/myflask:latest
                                        docker-compose up -d
                                     '
                             '''
