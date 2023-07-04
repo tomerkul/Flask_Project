@@ -22,10 +22,10 @@ print(f"Successfully built image: {image_name}")
 client.images.push(repository="tomerkul/myflask", tag=next_version)
 print(f"Successfully pushed image: {image_name}")
 
-# Tag the image as 'latest' and push it
+# Push the image with the 'latest' tag
 latest_tag = "latest"
 latest_image_name = f"tomerkul/myflask:{latest_tag}"
-client.images.tag(image_name, repository="tomerkul/myflask", tag=latest_tag)
+image_to_tag = client.images.get(image_name)
+image_to_tag.tag(repository="tomerkul/myflask", tag=latest_tag)
 client.images.push(repository="tomerkul/myflask", tag=latest_tag)
 print(f"Successfully pushed image: {latest_image_name}")
-
