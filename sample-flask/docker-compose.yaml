@@ -15,4 +15,5 @@ services:
       - MYSQL_DATABASE=develop
       - MYSQL_USER=tomer
       - MYSQL_PASSWORD=1234
+      - MYSQL_ROOT_PASSWORD=1234
     restart:  unless-stopped
